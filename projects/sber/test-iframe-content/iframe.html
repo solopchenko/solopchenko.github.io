@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Внешний контент от поставщика</title>
+  </head>
+  <body>
+    <h2>Внешний контент от поставщика</h2>
+    <p>Контент поставщика</p>
+    <p id="insertData"></p>
+
+    <script>
+      const generateStatus = () => {
+        const statuses = ['loading', 'ready', 'error'];
+        const taskStatuses = ['inProgress', 'failed', 'pendingResult', 'completed'];
+        const status = statuses[Math.floor(Math.random() * 3)];
+        const taskStatus = taskStatuses[Math.floor(Math.random() * 4)];
+        return {
+          status,
+          taskStatus,
+          taskData: ''
+        }
+      };
+
+      const listener = (event) => {
+        console.log('Iframe received message: ', event);
+        let message = null;
+        try {
+          message = JSON.parse(event.data);
+        }
+        catch (error) {
+          console.warn(error);
+        }
+        switch (message.action) {
+          case 'getStatus':
+            const status = generateStatus();
+            window.parent.postMessage(JSON.stringify(status), '*');
+            break;
+          case 'setData':
+            document.getElementById('insertData').innerHTML = message.data;
+            break;
+          default:
+            break;
+        }
+      }
+
+      window.addEventListener("message", listener, false);
+
+      window.parent.postMessage(JSON.stringify(generateStatus()), '*');
+    </script>
+  </body>
+</html>
