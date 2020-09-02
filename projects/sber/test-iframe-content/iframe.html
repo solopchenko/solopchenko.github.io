@@ -13,13 +13,46 @@
       const generateStatus = () => {
         const statuses = ['loading', 'ready', 'error'];
         const taskStatuses = ['inProgress', 'failed', 'pendingResult', 'completed'];
-        const status = statuses[Math.floor(Math.random() * 3)];
-        const taskStatus = taskStatuses[Math.floor(Math.random() * 4)];
-        return {
-          status,
-          taskStatus,
-          taskData: ''
-        }
+        const responses = [
+          {
+            status: 'loading',
+            taskStatus: 'inProgress',
+            taskData: '',
+          },
+          {
+            status: 'loading',
+          },
+          {
+            status: 'ready',
+            taskStatus: 'inProgress',
+            taskData: '',
+          },
+          {
+            status: 'ready',
+            taskStatus: 'failed',
+            taskData: '',
+          },
+          {
+            status: 'ready',
+            taskStatus: 'pendingResult',
+            taskData: '',
+          },
+          {
+            status: 'ready',
+            taskStatus: 'completed',
+            taskData: '',
+          },
+          {
+            status: 'error',
+            taskStatus: 'inProgress',
+            taskData: '',
+          },
+          {
+            status: 'error',
+          },
+        ];
+
+        return responses[Math.floor(Math.random() * 8)]
       };
 
       const listener = (event) => {
