@@ -57,17 +57,10 @@
 
       const listener = (event) => {
         console.log('Iframe received message: ', event);
-        let message = null;
-        try {
-          message = JSON.parse(event.data);
-        }
-        catch (error) {
-          console.warn(error);
-        }
         switch (message.action) {
           case 'getStatus':
             const status = generateStatus();
-            window.parent.postMessage(JSON.stringify(status), '*');
+            window.parent.postMessage(status, '*');
             break;
           case 'setData':
             document.getElementById('insertData').innerHTML = message.data;
