@@ -79,7 +79,7 @@
 
       window.addEventListener("message", listener, false);
 
-      window.parent.postMessage(JSON.stringify(generateStatus()), '*');
+      window.parent.postMessage(generateStatus(), '*');
     </script>
   </body>
 </html>
