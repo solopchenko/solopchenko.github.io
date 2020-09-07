@@ -54,7 +54,7 @@
             window.parent.postMessage(status, '*');
             break;
           case 'setData':
-            document.getElementById('insertData').innerHTML = message.data.initialData;
+            document.getElementById('insertData').innerHTML = message.data;
             break;
           default:
             break;
