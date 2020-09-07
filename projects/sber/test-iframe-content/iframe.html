@@ -57,6 +57,7 @@
 
       const listener = (event) => {
         console.log('Iframe received message: ', event);
+        const message = event.data;
         switch (message.action) {
           case 'getStatus':
             const status = generateStatus();
