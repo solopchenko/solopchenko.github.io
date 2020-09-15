@@ -11,8 +11,6 @@
 
     <script>
       const generateStatus = () => {
-        const statuses = ['loading', 'ready', 'error'];
-        const taskStatuses = ['inProgress', 'failed', 'pendingResult', 'completed'];
         const responses = [
           {
             status: 'loading',
@@ -42,7 +40,20 @@
           },
         ];
 
-        return responses[Math.floor(Math.random() * 6)]
+        const response = responses[Math.floor(Math.random() * 6)];
+
+        const url = new URL(window.location);
+        const status = url.searchParams.get('status');
+        const taskStatus = url.searchParams.get('taskStatus');
+        const taskData = url.searchParams.get('taskData');
+        if (status)
+          response.status = status;
+        if (taskStatus)
+          response.taskStatus = taskStatus;
+        if (taskData) 
+          response.taskData = taskData;
+
+        return response;
       };
 
       const listener = (event) => {
@@ -54,7 +65,7 @@
             window.parent.postMessage(status, '*');
             break;
           case 'setData':
-            document.getElementById('insertData').innerHTML = message.data;
+            document.getElementById('insertData').innerHTML = 'Received data: ' + (typeof message.data === "object") ? JSON.stringify(message.data) : message.data;
             break;
           default:
             break;
