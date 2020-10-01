@@ -7,9 +7,13 @@
   <body>
     <h2>Внешний контент от поставщика</h2>
     <p>Контент поставщика</p>
+    <button id="error-button">Ошибка</button>
+    <button id="completed-button">Успешно выполнено</button>
+    <button id="failed-button">Провалено</button>
     <p id="insertData"></p>
 
     <script>
+
       const generateStatus = () => {
         const responses = [
           {
@@ -39,9 +43,12 @@
             taskData: 'task completed',
           },
         ];
-
         const response = responses[Math.floor(Math.random() * 6)];
+        return response;
+      };
 
+      const sendStatus = () => {
+        const response = generateStatus();
         const url = new URL(window.location);
         const status = url.searchParams.get('status');
         const taskStatus = url.searchParams.get('taskStatus');
@@ -52,9 +59,8 @@
           response.taskStatus = taskStatus;
         if (taskData) 
           response.taskData = taskData;
-
         return response;
-      };
+      }
 
       const listener = (event) => {
         console.log('Iframe received message: ', event);
@@ -74,7 +80,11 @@
 
       window.addEventListener("message", listener, false);
 
-      window.parent.postMessage(generateStatus(), '*');
+      document.getElementById('error-button').addEventListener('click', () => window.parent.postMessage({ status: 'error' }, '*'));
+      document.getElementById('completed-button').addEventListener('click', () => window.parent.postMessage({ status: 'ready', taskStatus: 'completed' }, '*'));;
+      document.getElementById('failed-button').addEventListener('click', () => window.parent.postMessage({ status: 'error', taskStatus: 'failed' }, '*'));;
+
+      window.parent.postMessage(sendStatus(), '*');
     </script>
   </body>
 </html>
