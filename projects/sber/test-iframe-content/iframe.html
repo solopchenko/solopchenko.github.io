@@ -48,7 +48,11 @@
       };
 
       const sendStatus = () => {
-        const response = generateStatus();
+        const response = {
+          status: 'ready',
+          taskStatus: 'inProgress',
+          taskData: 'task in progress',
+        },;
         const url = new URL(window.location);
         const status = url.searchParams.get('status');
         const taskStatus = url.searchParams.get('taskStatus');
