@@ -83,7 +83,7 @@
       document.addEventListener('ready', () => {
         document.getElementById('error-button').addEventListener('click', () => window.parent.postMessage({ status: 'error' }, '*'));
         document.getElementById('completed-button').addEventListener('click', () => window.parent.postMessage({ status: 'ready', taskStatus: 'completed' }, '*'));
-        document.getElementById('failed-button').addEventListener('click', () => window.parent.postMessage({ status: 'error', taskStatus: 'failed' }, '*'));
+        document.getElementById('failed-button').addEventListener('click', () => window.parent.postMessage({ status: 'ready', taskStatus: 'failed' }, '*'));
       });
 
       window.parent.postMessage(sendStatus(), '*');
