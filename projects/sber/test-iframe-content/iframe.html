@@ -86,10 +86,9 @@
       window.addEventListener("message", listener, false);
 
       document.addEventListener('DOMContentLoaded', () => {
-        console.log('ready');
-        document.getElementById('error-button').addEventListener('click', () => { window.parent.postMessage({ status: 'error' }, '*'); console.log('error'); });
-        document.getElementById('completed-button').addEventListener('click', () => { window.parent.postMessage({ status: 'ready', taskStatus: 'completed' }, '*'); console.log('completed'); });
-        document.getElementById('failed-button').addEventListener('click', () => { window.parent.postMessage({ status: 'ready', taskStatus: 'failed' }, '*'); console.log('failed'); });
+        document.getElementById('error-button').addEventListener('click', () => { window.parent.postMessage({ status: 'error' }, '*'); });
+        document.getElementById('completed-button').addEventListener('click', () => { window.parent.postMessage({ status: 'ready', taskStatus: 'completed' }, '*'); });
+        document.getElementById('failed-button').addEventListener('click', () => { window.parent.postMessage({ status: 'ready', taskStatus: 'failed' }, '*'); });
       });
 
       const status = sendStatus();
