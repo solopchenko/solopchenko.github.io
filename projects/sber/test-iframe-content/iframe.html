@@ -73,9 +73,10 @@
           case 'getStatus':
             const status = generateStatus();
             window.parent.postMessage(status, '*');
+            console.log('Iframe sent message: ', status);
             break;
           case 'setData':
-            document.getElementById('insertData').innerHTML = 'Received data: ' + (typeof message.data === "object") ? JSON.stringify(message.data) : message.data;
+            document.getElementById('insertData').innerHTML = 'Received data: ' + (typeof message.data === "object") ? JSON.stringify(message.data) : message.data.taskStatus;
             break;
           default:
             break;
@@ -91,7 +92,9 @@
         document.getElementById('failed-button').addEventListener('click', () => { window.parent.postMessage({ status: 'ready', taskStatus: 'failed' }, '*'); console.log('failed'); });
       });
 
-      window.parent.postMessage(sendStatus(), '*');
+      const status = sendStatus();
+      window.parent.postMessage(status, '*');
+      console.log('Iframe sent message: ', status);
     </script>
   </body>
 </html>
