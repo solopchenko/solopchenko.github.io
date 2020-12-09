@@ -15,7 +15,7 @@
     <script>
       window.addEventListener("load", function() {
         const frame = window.frames.externalTask;
-        frame.postMessage(JSON.stringify({ action: 'setData', data: 'Данные для вставки в iframe' }), '*');
+        // frame.postMessage(JSON.stringify({ action: 'setData', data: 'Данные для вставки в iframe' }), '*');
         // Запрашиваем статус iframe
         let timerId = setInterval(() => { frame.postMessage(JSON.stringify({ action: 'getStatus' }), '*') }, 1000);
         // Прекращаем запрашивать статус супстя 10 секунд

@@ -7,9 +7,10 @@
   <body>
     <h2>Внешний контент от поставщика</h2>
     <p>Контент поставщика</p>
+    <button id="ready-button">READY</button>
+    <button id="success-button">SUCCESS</button>
+    <button id="click-button">CLICK</button>
     <button id="error-button">READY</button>
-    <button id="completed-button">SUCCESS</button>
-    <button id="failed-button">Провалено</button>
     <p><b>Данные, полученные от платформы</b></p>
     <p id="insertData"></p>
 
@@ -87,9 +88,10 @@
       window.addEventListener("message", listener, false);
 
       document.addEventListener('DOMContentLoaded', () => {
-        document.getElementById('error-button').addEventListener('click', () => { window.parent.postMessage({ status: 'ready' }, '*'); });
-        document.getElementById('completed-button').addEventListener('click', () => { window.parent.postMessage({ status: 'success', width: 200, height: 1000 }, '*'); });
-        document.getElementById('failed-button').addEventListener('click', () => { window.parent.postMessage({ status: 'ready', taskStatus: 'failed' }, '*'); });
+        document.getElementById('ready-button').addEventListener('click', () => { window.parent.postMessage({ status: 'ready' }, '*'); });
+        document.getElementById('success-button').addEventListener('click', () => { window.parent.postMessage({ status: 'success', width: 200, height: 1000 }, '*'); });
+        document.getElementById('click-button').addEventListener('click', () => { window.parent.postMessage({ verb: 'действие', success_status: true, completion_status: false }, '*'); });
+        document.getElementById('error-button').addEventListener('click', () => { window.parent.postMessage({ error: { errCode: 400, errName: 'Название ошибки', stackTrace: 'trace' } }, '*'); });
       });
 
       const status = sendStatus();
