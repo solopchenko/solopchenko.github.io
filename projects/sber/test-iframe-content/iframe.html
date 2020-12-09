@@ -90,7 +90,7 @@
       document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('ready-button').addEventListener('click', () => { window.parent.postMessage({ status: 'ready' }, '*'); });
         document.getElementById('success-button').addEventListener('click', () => { window.parent.postMessage({ status: 'success', width: 200, height: 1000 }, '*'); });
-        document.getElementById('click-button').addEventListener('click', () => { window.parent.postMessage({ verb: 'действие', success_status: true, completion_status: false }, '*'); });
+        document.getElementById('click-button').addEventListener('click', () => { window.parent.postMessage({ verb: 'next_step', success_status: true, completion_status: true }, '*'); });
         document.getElementById('error-button').addEventListener('click', () => { window.parent.postMessage({ error: { errCode: 400, errName: 'Название ошибки', stackTrace: 'trace' } }, '*'); });
       });
 
