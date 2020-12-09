@@ -7,8 +7,8 @@
   <body>
     <h2>Внешний контент от поставщика</h2>
     <p>Контент поставщика</p>
-    <button id="error-button">Ошибка</button>
-    <button id="completed-button">Успешно выполнено</button>
+    <button id="error-button">READY</button>
+    <button id="completed-button">SUCCESS</button>
     <button id="failed-button">Провалено</button>
     <p><b>Данные, полученные от платформы</b></p>
     <p id="insertData"></p>
@@ -68,12 +68,12 @@
       }
 
       const listener = (event) => {
-        console.log('Iframe received message: ', event);
+        // console.log('Iframe received message: ', event);
         const message = event.data;
         switch (message.action) {
           case 'getStatus':
             const status = generateStatus();
-            window.parent.postMessage(status, '*');
+            //window.parent.postMessage(status, '*');
             console.log('Iframe sent message: ', status);
             break;
           case 'setData':
@@ -87,14 +87,14 @@
       window.addEventListener("message", listener, false);
 
       document.addEventListener('DOMContentLoaded', () => {
-        document.getElementById('error-button').addEventListener('click', () => { window.parent.postMessage({ status: 'error' }, '*'); });
-        document.getElementById('completed-button').addEventListener('click', () => { window.parent.postMessage({ status: 'ready', taskStatus: 'completed' }, '*'); });
+        document.getElementById('error-button').addEventListener('click', () => { window.parent.postMessage({ status: 'ready' }, '*'); });
+        document.getElementById('completed-button').addEventListener('click', () => { window.parent.postMessage({ status: 'success', width: 200, height: 1000 }, '*'); });
         document.getElementById('failed-button').addEventListener('click', () => { window.parent.postMessage({ status: 'ready', taskStatus: 'failed' }, '*'); });
       });
 
       const status = sendStatus();
-      window.parent.postMessage(status, '*');
-      console.log('Iframe sent message: ', status);
+      // window.parent.postMessage(status, '*');
+      // console.log('Iframe sent message: ', status);
     </script>
   </body>
 </html>
