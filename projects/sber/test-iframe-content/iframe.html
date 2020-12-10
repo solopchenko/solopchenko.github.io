@@ -10,93 +10,105 @@
     <button id="ready-button">READY</button>
     <button id="success-button">SUCCESS</button>
     <button id="click-button">CLICK</button>
-    <button id="error-button">READY</button>
-    <p><b>Данные, полученные от платформы</b></p>
-    <p id="insertData"></p>
+    <button id="done-button">DONE</button>
+    <button id="full-done-button">FULL DONE</button>
+    <button id="failed-button">FAILED</button>
+    <button id="error-button">ERROR</button>
 
     <script>
-
-      const generateStatus = () => {
-        const responses = [
-          {
-            status: 'loading',
-          },
-          {
-            status: 'error',
-          },
-          {
-            status: 'ready',
-            taskStatus: 'inProgress',
-            taskData: 'task in progress',
-          },
-          {
-            status: 'ready',
-            taskStatus: 'failed',
-            taskData: 'task failed',
-          },
-          {
-            status: 'ready',
-            taskStatus: 'pendingResult',
-            taskData: 'task pending result',
-          },
-          {
-            status: 'ready',
-            taskStatus: 'completed',
-            taskData: 'task completed',
-          },
-        ];
-        const response = responses[Math.floor(Math.random() * 6)];
-        return response;
-      };
-
-      const sendStatus = () => {
-        const response = {
-          status: 'ready',
-          taskStatus: 'inProgress',
-          taskData: 'task in progress',
-        };
-        const url = new URL(window.location);
-        const status = url.searchParams.get('status');
-        const taskStatus = url.searchParams.get('taskStatus');
-        const taskData = url.searchParams.get('taskData');
-        if (status)
-          response.status = status;
-        if (taskStatus)
-          response.taskStatus = taskStatus;
-        if (taskData) 
-          response.taskData = taskData;
-        return response;
-      }
-
-      const listener = (event) => {
-        // console.log('Iframe received message: ', event);
-        const message = event.data;
-        switch (message.action) {
-          case 'getStatus':
-            const status = generateStatus();
-            //window.parent.postMessage(status, '*');
-            console.log('Iframe sent message: ', status);
-            break;
-          case 'setData':
-            document.getElementById('insertData').innerHTML = 'Received data: ' + (typeof message.data === "object") ? JSON.stringify(message.data) : message.data.taskStatus;
-            break;
-          default:
-            break;
-        }
-      }
-
-      window.addEventListener("message", listener, false);
-
       document.addEventListener('DOMContentLoaded', () => {
-        document.getElementById('ready-button').addEventListener('click', () => { window.parent.postMessage({ status: 'ready' }, '*'); });
-        document.getElementById('success-button').addEventListener('click', () => { window.parent.postMessage({ status: 'success', width: 200, height: 1000 }, '*'); });
-        document.getElementById('click-button').addEventListener('click', () => { window.parent.postMessage({ verb: 'next_step', success_status: true, completion_status: true }, '*'); });
-        document.getElementById('error-button').addEventListener('click', () => { window.parent.postMessage({ error: { errCode: 400, errName: 'Название ошибки', stackTrace: 'trace' } }, '*'); });
+        document.getElementById('ready-button').addEventListener(
+          'click', 
+          () => { 
+            window.parent.postMessage(
+              { 
+                status: 'ready' 
+              }, 
+              '*'
+            ); 
+          }
+        );
+        document.getElementById('success-button').addEventListener(
+          'click', 
+          () => { 
+            window.parent.postMessage(
+              { 
+                status: 'success', 
+                width: 200, 
+                height: 1000 
+              },
+              '*'
+            ); 
+          }
+        );
+        document.getElementById('click-button').addEventListener(
+          'click', 
+          () => { 
+            window.parent.postMessage(
+              { 
+                verb: 'next_step', 
+                success_status: false, 
+                completion_status: false 
+              },
+              '*'
+            ); 
+          }
+        );
+        document.getElementById('done-button').addEventListener(
+          'click', 
+          () => { 
+            window.parent.postMessage(
+              { 
+                verb: 'success_complete', 
+                success_status: true, 
+                completion_status: false 
+              },
+              '*'
+            ); 
+          }
+        );
+        document.getElementById('full-done-button').addEventListener(
+          'click', 
+          () => { 
+            window.parent.postMessage(
+              { 
+                verb: 'task_complete', 
+                success_status: true, 
+                completion_status: true 
+              },
+              '*'
+            ); 
+          }
+        );
+        document.getElementById('failed-button').addEventListener(
+          'click', 
+          () => { 
+            window.parent.postMessage(
+              { 
+                verb: 'failure_complete', 
+                success_status: false, 
+                completion_status: false 
+              },
+              '*'
+            ); 
+          }
+        );
+        document.getElementById('error-button').addEventListener(
+          'click', 
+          () => { 
+            window.parent.postMessage(
+              { 
+                error: { 
+                  errCode: 400, 
+                  errName: 'Название ошибки', 
+                  stackTrace: 'trace' 
+                } 
+              },
+              '*'
+            ); 
+          }
+        );
       });
-
-      const status = sendStatus();
-      // window.parent.postMessage(status, '*');
-      // console.log('Iframe sent message: ', status);
     </script>
   </body>
 </html>
