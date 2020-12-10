@@ -98,6 +98,9 @@
           () => { 
             window.parent.postMessage(
               { 
+                verb: 'next_step', 
+                success_status: false, 
+                completion_status: false,
                 error: { 
                   errCode: 400, 
                   errName: 'Название ошибки', 
